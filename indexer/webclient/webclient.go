@@ -88,7 +88,7 @@ func GetBlockData(number *big.Int) (*database.BlockData, error) {
 		BlockTime:  block.Time(),
 		ParentHash: block.ParentHash().Hex(),
 		BlockStable: func() uint8 {
-			if block.NumberU64()+unstableBlock < atomic.LoadUint64(&newestBlockNumber) {
+			if block.NumberU64()+unstableBlock <= atomic.LoadUint64(&newestBlockNumber) {
 				return 1
 			}
 			return 0
