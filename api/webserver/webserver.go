@@ -24,7 +24,7 @@ func Init(port string) {
 	go func() {
 		log.Printf("[webserver] start api service\n")
 		if err := service.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("listen: %s\n", err)
+			log.Printf("[webserver] listen error: %s\n", err)
 		}
 	}()
 }
@@ -33,7 +33,7 @@ func Fini() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := service.Shutdown(ctx); err != nil {
-		log.Fatalf("Service api shutdown: %s \n", err)
+		log.Fatalf("[webserver] service api shutdown: %s \n", err)
 	}
 }
 

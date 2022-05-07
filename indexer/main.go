@@ -85,6 +85,7 @@ func reader(id uint8) {
 		} else {
 			time.Sleep(10 * time.Millisecond)
 		}
+		// [TODO] 可透過 id 在追上進度後，將 go routine 減少至 4 以下
 	}
 	wg.Done()
 }
