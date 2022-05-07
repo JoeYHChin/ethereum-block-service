@@ -120,7 +120,7 @@ func QueryBlockByID(id uint64) *BlockWithTransactions {
 		BlockTime:  block.BlockTime,
 		ParentHash: block.ParentHash,
 		TxHashs:    make([]*string, 0, 100)}
-	rows, err := db.Debug().Table("block_transaction").Where("block_num = ?", id).Select("tx_hash").Rows()
+	rows, err := db.Table("block_transaction").Where("block_num = ?", id).Select("tx_hash").Rows()
 	if err != nil {
 		log.Printf("[database] queryBlockByID DB error: %s", err.Error())
 		return &result
@@ -164,7 +164,7 @@ func QueryTransactionByTXHash(txHash string) *TransactionWithLogs {
 			LogData  string `json:"data"`
 		}, 0, 100),
 	}
-	rows, err := db.Debug().Table("transaction_log").Where("tx_hash = ?", txHash).Select("transaction_log.log_index,transaction_log.log_data,eth_block.block_stable").Joins("JOIN eth_block on transaction_log.block_num = eth_block.block_num").Rows()
+	rows, err := db.Table("transaction_log").Where("tx_hash = ?", txHash).Select("transaction_log.log_index,transaction_log.log_data,eth_block.block_stable").Joins("JOIN eth_block on transaction_log.block_num = eth_block.block_num").Rows()
 	if err != nil {
 		log.Printf("[database] queryTransactionByTXHash DB error: %s", err.Error())
 		return &result

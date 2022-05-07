@@ -1,6 +1,6 @@
 {
 	"dsn":"blockchain:blockchain@tcp(127.0.0.1:3306)/eth?charset=utf8mb4&parseTime=True&loc=Local",
 	"endpoint":"wss://data-seed-prebsc-2-s3.binance.org:8545/",
-	"startblock":19065000,
+	"startblock":19090000,
 	"parallel":256
 }
