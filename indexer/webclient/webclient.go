@@ -76,6 +76,7 @@ func GetNewestBlockNnumber() uint64 {
 func GetBlockData(number *big.Int) (*database.BlockData, error) {
 	log.Printf("[webclient] read block %d from web\n", number)
 	var data database.BlockData
+	stableBlockNumber := atomic.LoadUint64(&newestBlockNumber) - unstableBlock
 	block, err := client.BlockByNumber(context.Background(), number)
 	if err != nil {
 		log.Printf("[webclient] rpc BlockByNumber() error: %s\n", err.Error())
@@ -88,7 +89,7 @@ func GetBlockData(number *big.Int) (*database.BlockData, error) {
 		BlockTime:  block.Time(),
 		ParentHash: block.ParentHash().Hex(),
 		BlockStable: func() uint8 {
-			if block.NumberU64()+unstableBlock <= atomic.LoadUint64(&newestBlockNumber) {
+			if block.NumberU64() <= stableBlockNumber {
 				return 1
 			}
 			return 0
